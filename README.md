@@ -13,9 +13,13 @@ This is a tailored version of Visual Studio code, that you can run in the browse
 
 [![deploy](https://raw.githubusercontent.com/deanobalino/coder-mojifier-workshop/master/azuredeploy.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fdeanobalino%2Fcoder-mojifier-workshop%2Fmaster%2Fazuredeploy.json)  
 
-2. Complete the parameters requested 
+2. Log in to your Azure account and complete the form
+    - Create New Resource Group and name it `mojifier-workshop`
+    - Choose a region, `West Europe` is recommended
+    - Create a password for logging into your instance of Visual Studio Code
+    - check the box to agree to the Terms and Conditions
 
-3. 
+3. Press Purchase.
 
 ### Parameters
 - `password`: Password to protect and logon to web version of VS Code

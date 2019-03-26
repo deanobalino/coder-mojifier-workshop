@@ -60,6 +60,9 @@
       "type": "Microsoft.ContainerInstance/containerGroups",
       "apiVersion": "2018-10-01",
       "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "Microsoft.ContainerInstance/containerGroups/createFileShare"
+      ],
       "properties": {
         "containers": [
           {
@@ -121,7 +124,49 @@
           }
         ]
       }
-    }
+    },
+    {
+      "name": "createFileShare",
+      "type": "Microsoft.ContainerInstance/containerGroups",
+      "apiVersion": "2018-10-01",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('projectStoreName'))]",
+        "[concat('Microsoft.Storage/storageAccounts/', variables('dataStoreName'))]"
+      ],
+      "properties": {
+        "containers": [
+          {
+            "name": "createFileShare",
+            "properties": {
+              "image": "microsoft/azure-cli",
+              "command": [
+                "az",
+                "storage",
+                "share",
+                "create",
+                "--name",
+                "[variables('project-share')]",
+                "--account-key",
+                "listKeys(variables('projectStoreName'),'2017-10-01').keys[0].value]",
+                "|",
+                "az",
+                "storage",
+                "share",
+                "create",
+                "--name",
+                "[variables('data-share')]",
+                "--account-key",
+                "listKeys(variables('dataStoreName'),'2017-10-01').keys[0].value]",
+              ],
+              "resources": {
+                "requests": {
+                  "cpu": "1",
+                  "memoryInGb": "1.5"
+                }
+              }
+            }
+}
   ],
   "outputs": {
     "codeServerURL": {
