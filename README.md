@@ -4,12 +4,12 @@ This is a tailored version of Visual Studio code, that you can run in the browse
 
 
 
-### Getting Started
+# Getting Started
 
 ## Deploy to Azure  
-**Pre-requisite:** you will already need an Azure account. You may sign up [here](https://azure.microsoft.com/en-gb/free).  
+**Pre-requisite:** you will need an Azure account. You can sign up [here](https://azure.microsoft.com/en-gb/free).  
 
-1. If you already have an Azure account, simply click the button below: 
+1. Once you have your Azure account, simply click the button below: 
 
 [![deploy](https://raw.githubusercontent.com/deanobalino/coder-mojifier-workshop/master/azuredeploy.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fdeanobalino%2Fcoder-mojifier-workshop%2Fmaster%2Fazuredeploy.json)  
 
