@@ -147,6 +147,8 @@
                 "create",
                 "--name",
                 "[variables('project-share')]",
+                "----account-name",
+                "[variables('projectStoreName')]",
                 "--account-key",
                 "listKeys(variables('projectStoreName'),'2017-10-01').keys[0].value]",
                 "|",
@@ -156,6 +158,8 @@
                 "create",
                 "--name",
                 "[variables('data-share')]",
+                "----account-name",
+                "[variables('dataStoreName')]",
                 "--account-key",
                 "listKeys(variables('dataStoreName'),'2017-10-01').keys[0].value]"
               ],
