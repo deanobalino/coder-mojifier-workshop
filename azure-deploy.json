@@ -1,0 +1,132 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "password": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Password for login to Visual Studio Code"
+      }
+    },
+    "location": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure region to deploy your resources"
+      }
+    }
+  },
+  "variables": {
+    "projectName": "mojifier",
+    "image": "[concat('deanobalino/', variables('projectName'))]",
+    "containerDNS": "[concat(variables('projectName'), '-', uniqueString(subscription().subscriptionId))]",
+    "port": "80",
+    "command-line": [
+      "code-server",
+      "[concat('./', variables('projectName'))]",
+      "--allow-http",
+      "[concat('--password=', parameters('password'))]",
+      "[concat('--port=', variables('port'))]"
+    ],
+    "project-share": "code-server-proj",
+    "data-share": "code-server-data",
+    "projectStoreName" : "[concat(variables('projectName'), 'projectvol')]",
+    "dataStoreName" : "[concat(variables('projectName'), 'datavol')]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('projectStoreName')]",
+      "apiVersion": "2017-10-01",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "Storage",
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('dataStoreName')]",
+      "apiVersion": "2017-10-01",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "Storage",
+      "properties": {}
+    },
+    {
+      "name": "[variables('projectName')]",
+      "type": "Microsoft.ContainerInstance/containerGroups",
+      "apiVersion": "2018-10-01",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "containers": [
+          {
+            "name": "[variables('projectName')]",
+            "properties": {
+              "image": "[variables('image')]",
+              "command": "[variables('command-line')]",
+              "ports": [
+                {
+                  "port": "[variables('port')]"
+                }
+              ],
+              "volumeMounts": [
+                {
+                  "name": "project-vol",
+                  "mountPath": "/root/project"
+                },
+                {
+                  "name": "data-vol",
+                  "mountPath": "/root/.local/share/code-server"
+                }
+              ],
+              "resources": {
+                "requests": {
+                  "cpu": "1",
+                  "memoryInGB": "1.5"
+                }
+              }
+            }
+          }
+        ],
+        "osType": "Linux",
+        "ipAddress": {
+          "type": "Public",
+          "dnsNameLabel": "[variables('containerDNS')]",
+          "ports": [
+            {
+              "protocol": "TCP",
+              "port": "[variables('port')]"
+            }
+          ]
+        },
+        "volumes": [
+          {
+            "name": "project-vol",
+            "azureFile": {
+              "shareName": "[variables('project-share')]",
+              "storageAccountName": "[variables('projectStoreName')]",
+              "storageAccountKey": "[listKeys(variables('projectStoreName'),'2017-10-01').keys[0].value]"
+            }
+          },
+          {
+            "name": "data-vol",
+            "azureFile": {
+              "shareName": "[variables('data-share')]",
+              "storageAccountName": "[variables('dataStoreName')]",
+              "storageAccountKey": "[listKeys(variables('dataStoreName'),'2017-10-01').keys[0].value]"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+    "codeServerURL": {
+      "value": "[concat('http://', reference(variables('projectName')).ipAddress.fqdn)]",
+      "type": "string"
+    }
+  }
+}
