@@ -50,3 +50,9 @@ This is a tailored version of Visual Studio code, that you can run in the browse
 
 3. Login with the `--password` that you chose when running the container.
 
+
+## TODO
+
+- Update ARM template to use location of resource group instead of input parameter
+- Update ARM template to make the storage account names unique so it can be deployed to the same account multiple times
+
