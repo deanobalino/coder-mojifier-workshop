@@ -61,7 +61,7 @@
       "apiVersion": "2018-10-01",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "Microsoft.ContainerInstance/containerGroups/createFileShare"
+        "Microsoft.ContainerInstance/containerGroups/createfileshare"
       ],
       "properties": {
         "containers": [
@@ -126,7 +126,7 @@
       }
     },
     {
-      "name": "createFileShare",
+      "name": "createfileshare",
       "type": "Microsoft.ContainerInstance/containerGroups",
       "apiVersion": "2018-10-01",
       "location": "[parameters('location')]",
@@ -137,7 +137,7 @@
       "properties": {
         "containers": [
           {
-            "name": "createFileShare",
+            "name": "createfileshare",
             "properties": {
               "image": "microsoft/azure-cli",
               "command": [
