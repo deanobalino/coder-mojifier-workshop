@@ -43,17 +43,17 @@ echo -e "${RED}All Logs can be found in log/coder-deploy.log\n"
 
 # Create the resource group
 echo -e "${BLUE}Creating the Resource Group\n"
-az group create --name $RESOURCE_GROUP --location $LOCATION  #>>log/coder-deploy.log 2>&1
+az group create --name $RESOURCE_GROUP --location $LOCATION  &>> log/coder-deploy.log
 
 # Create the storage account with the parameters
 echo -e "${BLUE}Creating the Storage account\n"
-az storage account create -n $STORAGE_ACCOUNT_NAME -g $RESOURCE_GROUP -l $LOCATION --sku Standard_LRS -o table   
+az storage account create -n $STORAGE_ACCOUNT_NAME -g $RESOURCE_GROUP -l $LOCATION --sku Standard_LRS -o table &>> log/coder-deploy.log  
 # Export the connection string as an environment variable, this is used when creating the Azure file share
 CONN_STR=$(az storage account show-connection-string -n $STORAGE_ACCOUNT_NAME -g $RESOURCE_GROUP -o tsv)
 # Create the file shares
 echo -e "${BLUE}Creating the File Shares\n"
-az storage share create -n $SHARE_NAME_PROJ --connection-string $CONN_STR -o table  
-az storage share create -n $SHARE_NAME_DATA --connection-string $CONN_STR -o table  
+az storage share create -n $SHARE_NAME_PROJ --connection-string $CONN_STR -o table  &>> log/coder-deploy.log
+az storage share create -n $SHARE_NAME_DATA --connection-string $CONN_STR -o table  &>> log/coder-deploy.log
 
 # Get the account name and key
 STORAGE_ACCOUNT=$(az storage account list --resource-group $RESOURCE_GROUP --query "[?contains(name,'$STORAGE_ACCOUNT_NAME')].[name]" -o tsv)
@@ -108,29 +108,29 @@ properties:
       protocol: tcp
 tags: null
 type: Microsoft.ContainerInstance/containerGroups
-EOL
+EOL &>> log/coder-deploy.log
 
 echo -e "${BLUE} Deploying the container instance - Be Patient, this may take a while\n"
-az container create --resource-group $RESOURCE_GROUP --file acideploy.yaml  
+az container create --resource-group $RESOURCE_GROUP --file acideploy.yaml  &>> log/coder-deploy.log
 
 CONTAINER_URL=$(az container show --resource-group $RESOURCE_GROUP --name $PROJECT_NAME --query ipAddress.fqdn -o tsv)
 
 echo -e "${BLUE} Installing Extensions\n"
-apt-get update && apt-get install -y bsdtar
+apt-get update && apt-get install -y bsdtar &>> log/coder-deploy.log
 # Install Azure Functions Extension
-curl -JL https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-azuretools/vsextensions/vscode-azurefunctions/0.15.0/vspackage > func.vxif
-bsdtar -xvf func.vxif
-az storage file upload-batch --destination $SHARE_NAME_DATA --source extension --connection-string=$CONN_STR --destination-path extensions/ms-azuretools.vscode-azurefunctions-0.15.0 
-rm func.vxif
-rm extension.vsixmanifest
-rm -rf extension
+curl -JL https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-azuretools/vsextensions/vscode-azurefunctions/0.15.0/vspackage > func.vxif &>> log/coder-deploy.log
+bsdtar -xvf func.vxif &>> log/coder-deploy.log &>> log/coder-deploy.log
+az storage file upload-batch --destination $SHARE_NAME_DATA --source extension --connection-string=$CONN_STR --destination-path extensions/ms-azuretools.vscode-azurefunctions-0.15.0 &>> log/coder-deploy.log
+rm func.vxif &>> log/coder-deploy.log
+rm extension.vsixmanifest &>> log/coder-deploy.log
+rm -rf extension &>> log/coder-deploy.log
 # Install Azure Account Extension
-curl -JL https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-vscode/vsextensions/azure-account/0.8.0/vspackage > azAccount.vxif
-bsdtar -xvf azAccount.vxif
-az storage file upload-batch --destination $SHARE_NAME_DATA --source extension --connection-string=$CONN_STR --destination-path extensions/ms-vscode.azure-account-0.8.0 
-rm azAccount.vxif
-rm extension.vsixmanifest
-rm -rf extension
+curl -JL https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-vscode/vsextensions/azure-account/0.8.0/vspackage > azAccount.vxif &>> log/coder-deploy.log
+bsdtar -xvf azAccount.vxif &>> log/coder-deploy.log
+az storage file upload-batch --destination $SHARE_NAME_DATA --source extension --connection-string=$CONN_STR --destination-path extensions/ms-vscode.azure-account-0.8.0 &>> log/coder-deploy.log
+rm azAccount.vxif &>> log/coder-deploy.log
+rm extension.vsixmanifest &>> log/coder-deploy.log
+rm -rf extension &>> log/coder-deploy.log
 
 echo ""
 echo -e "${GREEN}  ====== Deployment Complete ======\n"
