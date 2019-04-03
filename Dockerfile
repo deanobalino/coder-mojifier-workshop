@@ -43,8 +43,6 @@ RUN apt-get update && apt-get  -y install azure-functions-core-tools
 # Clone Mojifier Repository
 RUN git clone https://github.com/jawache/mojifier.git
 
-# Prep for Extensions
-RUN mkdir -p /root/.local/share/code-server/extensions
 # Install Azure Functions Extension
 RUN curl -JL https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-azuretools/vsextensions/vscode-azurefunctions/0.15.0/vspackage > func.vxif
 RUN bsdtar -xvf func.vxif
@@ -58,6 +56,8 @@ RUN mv extension /root/.local/share/code-server/extensions/ms-vscode.azure-accou
 RUN rm azAccount.vxif
 RUN rm extension.vsixmanifest
 
+
 EXPOSE 3000
 
 ENTRYPOINT ["code-server", "./mojifier", "--allow-http"]
+

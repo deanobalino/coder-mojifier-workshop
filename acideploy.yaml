@@ -6,37 +6,41 @@ properties:
   - name: mojifier
     properties:
       command: 
-      - '[code-server, ./mojifier,--allow-http,--password=password,--port=3000]'
+      - code-server 
+      - ./mojifier 
+      - --allow-http 
+      - --password=hello 
+      - --port=3000
       image: deanobalino/mojifier:latest
       resources:
         requests:
           cpu: 1.0
           memoryInGb: 1.5
-      ports:
-      - port: 3000
       volumeMounts:
       - mountPath: /root/project
-        name: code-server-proj
-      - mountPath: /root/data
-        name: code-server-data
+        name: project-volume
+      - mountPath: /root/.local/share/code-server
+        name: data-volume
+      ports:
+      - port: 3000
   osType: Linux
   restartPolicy: Always
   volumes:
-  - azureFile:
+  - name: project-volume
+    azureFile:
       shareName: code-server-proj
-      storageAccountName: mojifiervhvbchv
-      storageAccountKey: hrv96Vk/EKifoD3U04v3fu9sMSvm0T1TzJFps2dnadLLMRcJM8kNcygDFc6tWlYsZr/Tum8+tVF2udK80uHiZQ==
-    name: code-server-proj
-  - azureFile:
+      storageAccountName: mojifier53143aa26e4
+      storageAccountKey: Y3VenMZRM7ZocGXcjyi8QQhdNsBYRj6oc08ujGb6WGzwkPbqeqtsOT+pystmdrU6uGdNTEtttpev3sJPcZtQ2g==
+  - name: data-volume
+    azureFile:
       shareName: code-server-data
-      storageAccountName: mojifiervhvbchv
-      storageAccountKey: hrv96Vk/EKifoD3U04v3fu9sMSvm0T1TzJFps2dnadLLMRcJM8kNcygDFc6tWlYsZr/Tum8+tVF2udK80uHiZQ==
-    name: code-server-data
+      storageAccountName: mojifier53143aa26e4
+      storageAccountKey: Y3VenMZRM7ZocGXcjyi8QQhdNsBYRj6oc08ujGb6WGzwkPbqeqtsOT+pystmdrU6uGdNTEtttpev3sJPcZtQ2g==
   ipAddress:
-    dnsNameLabel: mojifiervhvbchv
+    dnsNameLabel: mojifier53143aa26e4
     type: Public
     ports:
-    - port: '3000'
+    - port: 3000
       protocol: tcp
-tags: {}
+tags: null
 type: Microsoft.ContainerInstance/containerGroups
