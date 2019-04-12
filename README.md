@@ -1,37 +1,9 @@
 # VScode instance for Mojifier Workshop 
 This is a tailored version of Visual Studio code, that you can run in the browser to complete the Mojifier workshop. It uses [https://coder.com/](https://github.com/codercom/code-server). 
 
-
-
+> The actual workshop code can be found here: [Mojifier on Github](https://github.com/MicrosoftDocs/mslearn-the-mojifier.git)
 
 # Getting Started
-
-## Deploy to Azure  
-**Pre-requisite:** you will need an Azure account. You can sign up [here](https://azure.microsoft.com/en-gb/free).  
-
-1. Once you have your Azure account, simply click the button below: 
-
-[![deploy](https://raw.githubusercontent.com/deanobalino/coder-mojifier-workshop/master/azuredeploy.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fdeanobalino%2Fcoder-mojifier-workshop%2Fmaster%2Fazuredeploy.json)  
-
-2. Log in to your Azure account and complete the form
-    - Create New Resource Group and name it `mojifier-workshop`
-    - Choose a region, `West Europe` is recommended
-    - Create a password for logging into your instance of Visual Studio Code
-    - check the box to agree to the Terms and Conditions
-
-3. Press Purchase.
-
-### Parameters
-- `password`: Password to protect and logon to web version of VS Code
-- `location`: The Azure region to deploy your resources
-
-### Outputs
-- `codeServerURL`: URL to access VS Code in browser
-
-### Deployed Resources
-- Microsoft.ContainerInstance/containerGroups
-- Microsoft.Storage/storageAccounts
-- Microsoft.ResourceGroup
 
 ## Run Locally on your machine
 
@@ -39,7 +11,7 @@ This is a tailored version of Visual Studio code, that you can run in the browse
 
 1. Once you have docker installed, simply run the below in your terminal:  
 
-    `docker run -p 3000:3000 deanobalino/mojifier  --port=3000 --password=changeme`
+    `docker run -p 3000:3000 -p 7071:7071 deanobalino/mojifier  --port=3000 --password=changeme`
 
     ### Parameters
     - `--password`:  Password to protect and logon to web version of Visual Studio Code
@@ -50,9 +22,63 @@ This is a tailored version of Visual Studio code, that you can run in the browse
 
 3. Login with the `--password` that you chose when running the container.
 
+## Deploy to Azure  
+**THIS IS EXPERIMENTAL AND MAY NOT WORK - IT'S RECCOMENDED TO TRY THIS AHEAD OF TIME** 
+----------------------------------------- 
+**Pre-requisite:** you will need an Azure account. You can sign up [here](https://azure.microsoft.com/en-gb/free).  
 
-## TODO
+1. Once you have your Azure account, simply run the below in Azure Cloud Shell:
 
-- Update ARM template to use location of resource group instead of input parameter
-- Update ARM template to make the storage account names unique so it can be deployed to the same account multiple times
+`curl -s https://raw.githubusercontent.com/deanobalino/coder-mojifier-workshop/master/deploy.sh | bash`
+
+### Deployed Resources
+- Microsoft.ContainerInstance/containerGroups
+- Microsoft.Storage/storageAccounts
+- Microsoft.ResourceGroup
+
+## Deploying Function Code to Azure when using Docker VSCode
+
+When running vscode in a docker container as per this guide, there is an outstanding issue with authenticating Azure extensions. 
+
+Therefore, when you get to the 'Deploy to Azure' section of the workshop on Microsoft Learn, you will need to divert to these instructions.
+
+1. Open up the terminal in vscode and type:
+
+
+```
+az login
+``` 
+
+2. Follow the instructions, open https://microsoft.com/devicelogin, login to your Azure account and type the code provided in the terminal. 
+
+3. We will need to create our Function App in Azure, type the following:
+
+```
+# Create Resource Group
+az group create --name mojifier-workshop --location westeurope
+
+# Create Storage Account
+az storage account create --name mojifierworkshop --location westeurope --resource-group mojifier-workshop --sku Standard_LRS
+
+# Create Function App
+az functionapp create \
+--resource-group mojifier-workshop \
+--consumption-plan-location westeurope \
+--name mojifierWorkshop \
+--storage-account mojifierworkshop \
+--runtime node
+```
+
+4. Next, we will deploy our mojifier code to the Function App using the `func` cli tool.  
+
+We will also use the `--publish-local-settings` flag to syncronise our Face API details in `local.settings.json` with our Application Settings in Azure.
+
+```
+func azure functionapp publish mojifierWorkshop --publish-local-settings
+```
+
+> You can use this single command to deploy to this function app whenever you need to re-deploy your code.
+
+
+
 

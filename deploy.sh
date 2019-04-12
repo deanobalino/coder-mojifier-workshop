@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Change these parameters if you wish
 PROJECT_NAME=mojifier
@@ -40,10 +40,10 @@ echo "                                                                      "
 
 echo -e "${BLUE}====== Beginning Deployment ======\n"
 echo -e "${RED}All Logs can be found in log/coder-deploy.log\n"
-
+mkdir log
 # Create the resource group
 echo -e "${BLUE}Creating the Resource Group\n"
-az group create --name $RESOURCE_GROUP --location $LOCATION  &>> log/coder-deploy.log
+az group create --name $RESOURCE_GROUP --location $LOCATION  &> log/coder-deploy.log
 
 # Create the storage account with the parameters
 echo -e "${BLUE}Creating the Storage account\n"
