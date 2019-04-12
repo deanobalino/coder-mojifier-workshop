@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Change these parameters if you wish
-PROJECT_NAME=mojifier
+PROJECT_NAME=cloudshell
 LOCATION=westeurope
 SHARE_NAME_PROJ=code-server-proj
 SHARE_NAME_DATA=code-server-data
@@ -18,7 +18,7 @@ done
 
 #Generate a 10 charachter Unique ID to append to resource names
 #NEW_UUID=$(od -x /dev/urandom | head -1 | awk '{OFS=""; srand($6); sub(/./,"4",$5); sub(/./,substr("89ab",rand()*4,1),$6); print $2$3,$4,$5,$6,$7$8$9}' | cut -c22-)
-NEW_UUID=bigtits
+NEW_UUID=123
 # Set colors for terminal output
 RED='\033[0;31m'
 NC='\033[0m'
