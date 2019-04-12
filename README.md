@@ -23,8 +23,8 @@ This is a tailored version of Visual Studio code, that you can run in the browse
 3. Login with the `--password` that you chose when running the container.
 
 ## Deploy to Azure  
-**THIS IS EXPERIMENTAL AND MAY NOT WORK - IT'S RECCOMENDED TO TRY THIS AHEAD OF TIME** 
------------------------------------------ 
+**NOTE THIS IS EXPERIMENTAL AND MAY NOT WORK**
+----------------------------------------------
 **Pre-requisite:** you will need an Azure account. You can sign up [here](https://azure.microsoft.com/en-gb/free).  
 
 1. Login to Azure at [portal.azure.com](https://portal.azure.com)
@@ -35,7 +35,8 @@ This is a tailored version of Visual Studio code, that you can run in the browse
 3. Select a Bash terminal within Cloud Shell 
 ![select bash](cloud-shell-bash.png)
 
-4. Run the following command in the Cloud Shell:  
+4. Run the following command in the Cloud Shell   
+**Be sure to change the `-p` parameter with your own password**
 
 `curl -s https://raw.githubusercontent.com/deanobalino/coder-mojifier-workshop/master/deploy.sh | bash -s -- -p hello`
 
@@ -48,7 +49,6 @@ This is a tailored version of Visual Studio code, that you can run in the browse
 
 ###Troubleshooting
 - If you get a 400 auth token error. Run 'az login` in the Azure cloud shell and re-authenticate using the URL and Access Code.
-
 
 ## Deploying Function Code to Azure when using Docker VSCode
 
