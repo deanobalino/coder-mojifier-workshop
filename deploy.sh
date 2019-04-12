@@ -115,22 +115,22 @@ az container create --resource-group $RESOURCE_GROUP --file acideploy.yaml  &>> 
 
 CONTAINER_URL=$(az container show --resource-group $RESOURCE_GROUP --name $PROJECT_NAME --query ipAddress.fqdn -o tsv)
 
-echo -e "${BLUE} Installing Extensions\n"
-apt-get update && apt-get install -y bsdtar &>> log/coder-deploy.log
-# Install Azure Functions Extension
-curl -JL https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-azuretools/vsextensions/vscode-azurefunctions/0.15.0/vspackage > func.vxif &>> log/coder-deploy.log
-bsdtar -xvf func.vxif &>> log/coder-deploy.log &>> log/coder-deploy.log
-az storage file upload-batch --destination $SHARE_NAME_DATA --source extension --connection-string=$CONN_STR --destination-path extensions/ms-azuretools.vscode-azurefunctions-0.15.0 &>> log/coder-deploy.log
-rm func.vxif &>> log/coder-deploy.log
-rm extension.vsixmanifest &>> log/coder-deploy.log
-rm -rf extension &>> log/coder-deploy.log
-# Install Azure Account Extension
-curl -JL https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-vscode/vsextensions/azure-account/0.8.0/vspackage > azAccount.vxif &>> log/coder-deploy.log
-bsdtar -xvf azAccount.vxif &>> log/coder-deploy.log
-az storage file upload-batch --destination $SHARE_NAME_DATA --source extension --connection-string=$CONN_STR --destination-path extensions/ms-vscode.azure-account-0.8.0 &>> log/coder-deploy.log
-rm azAccount.vxif &>> log/coder-deploy.log
-rm extension.vsixmanifest &>> log/coder-deploy.log
-rm -rf extension &>> log/coder-deploy.log
+# echo -e "${BLUE} Installing Extensions\n"
+# apt-get update && apt-get install -y bsdtar &>> log/coder-deploy.log
+# # Install Azure Functions Extension
+# curl -JL https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-azuretools/vsextensions/vscode-azurefunctions/0.15.0/vspackage > func.vxif &>> log/coder-deploy.log
+# bsdtar -xvf func.vxif &>> log/coder-deploy.log &>> log/coder-deploy.log
+# az storage file upload-batch --destination $SHARE_NAME_DATA --source extension --connection-string=$CONN_STR --destination-path extensions/ms-azuretools.vscode-azurefunctions-0.15.0 &>> log/coder-deploy.log
+# rm func.vxif &>> log/coder-deploy.log
+# rm extension.vsixmanifest &>> log/coder-deploy.log
+# rm -rf extension &>> log/coder-deploy.log
+# # Install Azure Account Extension
+# curl -JL https://marketplace.visualstudio.com/_apis/public/gallery/publishers/ms-vscode/vsextensions/azure-account/0.8.0/vspackage > azAccount.vxif &>> log/coder-deploy.log
+# bsdtar -xvf azAccount.vxif &>> log/coder-deploy.log
+# az storage file upload-batch --destination $SHARE_NAME_DATA --source extension --connection-string=$CONN_STR --destination-path extensions/ms-vscode.azure-account-0.8.0 &>> log/coder-deploy.log
+# rm azAccount.vxif &>> log/coder-deploy.log
+# rm extension.vsixmanifest &>> log/coder-deploy.log
+# rm -rf extension &>> log/coder-deploy.log
 
 echo ""
 echo -e "${GREEN}  ====== Deployment Complete ======\n"
