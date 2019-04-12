@@ -37,9 +37,7 @@ This is a tailored version of Visual Studio code, that you can run in the browse
 
 4. Run the following command in the Cloud Shell:  
 
-`curl -s https://raw.githubusercontent.com/deanobalino/coder-mojifier-workshop/master/deploy.sh | bash`
-
-bash <(curl -s https://raw.githubusercontent.com/deanobalino/coder-mojifier-workshop/master/deploy.sh)
+`curl -s https://raw.githubusercontent.com/deanobalino/coder-mojifier-workshop/master/deploy.sh | bash -s -- -p hello`
 
 5. Once complete, you will be presented with the URL to access your Azure Hosted instance of VS Code. Click on thisto access your IDE.
 
@@ -47,6 +45,10 @@ bash <(curl -s https://raw.githubusercontent.com/deanobalino/coder-mojifier-work
 - Microsoft.ContainerInstance/containerGroups
 - Microsoft.Storage/storageAccounts
 - Microsoft.ResourceGroup
+
+###Troubleshooting
+- If you get a 400 auth token error. Run 'az login` in the Azure cloud shell and re-authenticate using the URL and Access Code.
+
 
 ## Deploying Function Code to Azure when using Docker VSCode
 

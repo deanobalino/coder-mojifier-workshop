@@ -69,7 +69,7 @@ properties:
     properties:
       command: 
       - code-server 
-      - ./mojifier 
+      - ./mslearn-the-mojifier 
       - --allow-http 
       - --password=$PASSWORD 
       - --port=3000
