@@ -62,7 +62,7 @@ STORAGE_KEY=$(az storage account keys list --resource-group $RESOURCE_GROUP --ac
 
 # Create YAML file
 echo -e "${BLUE}Creating YAML File for Azure Container Instance\n"
-cat > acideploy.yaml <<EOL
+cat > acideploy.yaml <<EOF
 apiVersion: 2018-10-01
 location: ${LOCATION}
 name: ${PROJECT_NAME}
@@ -109,7 +109,7 @@ properties:
       protocol: tcp
 tags: null
 type: Microsoft.ContainerInstance/containerGroups
-EOL 
+EOF
 
 echo -e "${BLUE} Deploying the container instance - Be Patient, this may take a while\n"
 az container create --resource-group $RESOURCE_GROUP --file acideploy.yaml  
