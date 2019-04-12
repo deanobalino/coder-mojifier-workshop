@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Change these parameters if you wish
-PROJECT_NAME=deanzzyg
+PROJECT_NAME=mojifier
 LOCATION=westeurope
 SHARE_NAME_PROJ=code-server-proj
 SHARE_NAME_DATA=code-server-data
@@ -15,7 +15,7 @@ while getopts ":p:" opt; do
     ;;
   esac
 done
-
+echo $PASSWORD
 #Generate a 10 charachter Unique ID to append to resource names
 NEW_UUID=$(python -c 'import random; print(random.randint(0,1000000000-1))')
 # Set colors for terminal output
