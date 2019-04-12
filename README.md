@@ -27,9 +27,21 @@ This is a tailored version of Visual Studio code, that you can run in the browse
 ----------------------------------------- 
 **Pre-requisite:** you will need an Azure account. You can sign up [here](https://azure.microsoft.com/en-gb/free).  
 
-1. Once you have your Azure account, simply run the below in Azure Cloud Shell:
+1. Login to Azure at [portal.azure.com](https://portal.azure.com)
+
+2. Click on the Azure Cloud Shell Icon  
+![cloud shell icon](cloud-shell-icon.png)
+
+3. Select a Bash terminal within Cloud Shell 
+![select bash](cloud-shell-bash.png)
+
+4. Run the following command in the Cloud Shell:  
 
 `curl -s https://raw.githubusercontent.com/deanobalino/coder-mojifier-workshop/master/deploy.sh | bash`
+
+bash <(curl -s https://raw.githubusercontent.com/deanobalino/coder-mojifier-workshop/master/deploy.sh)
+
+5. Once complete, you will be presented with the URL to access your Azure Hosted instance of VS Code. Click on thisto access your IDE.
 
 ### Deployed Resources
 - Microsoft.ContainerInstance/containerGroups

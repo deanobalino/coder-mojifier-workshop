@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Change these parameters if you wish
 PROJECT_NAME=mojifier
