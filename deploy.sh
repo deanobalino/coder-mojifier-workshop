@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Change these parameters if you wish
-PROJECT_NAME=deanzzyz
+PROJECT_NAME=deanzzyf
 LOCATION=westeurope
 SHARE_NAME_PROJ=code-server-proj
 SHARE_NAME_DATA=code-server-data
