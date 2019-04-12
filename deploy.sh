@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Change these parameters if you wish
-PROJECT_NAME=deanzzyf
+PROJECT_NAME=deanzzyg
 LOCATION=westeurope
 SHARE_NAME_PROJ=code-server-proj
 SHARE_NAME_DATA=code-server-data
@@ -17,8 +17,7 @@ while getopts ":p:" opt; do
 done
 
 #Generate a 10 charachter Unique ID to append to resource names
-#NEW_UUID=$(od -x /dev/urandom | head -1 | awk '{OFS=""; srand($6); sub(/./,"4",$5); sub(/./,substr("89ab",rand()*4,1),$6); print $2$3,$4,$5,$6,$7$8$9}' | cut -c22-)
-NEW_UUID=123
+NEW_UUID=$(python -c 'import random; print(random.randint(0,1000000000-1))')
 # Set colors for terminal output
 RED='\033[0;31m'
 NC='\033[0m'
@@ -40,8 +39,6 @@ echo "|_|  |_|  \____/   \____/  |_____| |_|      |_____| |______| |_|  \_\ "
 echo "                                                                      "
 
 echo -e "${BLUE}====== Beginning Deployment ======\n"
-echo -e "${RED}All Logs can be found in log/coder-deploy.log\n"
-mkdir log
 # Create the resource group
 echo -e "${BLUE}Creating the Resource Group\n"
 az group create --name $RESOURCE_GROUP --location $LOCATION  
@@ -62,7 +59,7 @@ STORAGE_KEY=$(az storage account keys list --resource-group $RESOURCE_GROUP --ac
 
 # Create YAML file
 echo -e "${BLUE}Creating YAML File for Azure Container Instance\n"
-cat > acideploy.yaml <<EOF
+cat > acideploy.yaml <<EOL
 apiVersion: 2018-10-01
 location: ${LOCATION}
 name: ${PROJECT_NAME}
@@ -109,7 +106,7 @@ properties:
       protocol: tcp
 tags: null
 type: Microsoft.ContainerInstance/containerGroups
-EOF
+EOL
 
 echo -e "${BLUE} Deploying the container instance - Be Patient, this may take a while\n"
 az container create --resource-group $RESOURCE_GROUP --file acideploy.yaml  

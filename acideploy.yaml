@@ -1,15 +1,15 @@
 apiVersion: 2018-10-01
 location: westeurope
-name: mojifier
+name: deanzzyg
 properties:
   containers:
-  - name: mojifier
+  - name: deanzzyg
     properties:
       command: 
       - code-server 
       - ./mojifier 
       - --allow-http 
-      - --password=hello 
+      - --password= 
       - --port=3000
       image: deanobalino/mojifier:latest
       resources:
@@ -29,15 +29,15 @@ properties:
   - name: project-volume
     azureFile:
       shareName: code-server-proj
-      storageAccountName: mojifier53143aa26e4
-      storageAccountKey: Y3VenMZRM7ZocGXcjyi8QQhdNsBYRj6oc08ujGb6WGzwkPbqeqtsOT+pystmdrU6uGdNTEtttpev3sJPcZtQ2g==
+      storageAccountName: deanzzyg123
+      storageAccountKey: yXXdF2EH9whdXW9YAX26ojqYau8Sa8znLpW9QdardUAWbXq7GGpLyBOqssMDin826oprNiZRkyK5rItzFX91xA==
   - name: data-volume
     azureFile:
       shareName: code-server-data
-      storageAccountName: mojifier53143aa26e4
-      storageAccountKey: Y3VenMZRM7ZocGXcjyi8QQhdNsBYRj6oc08ujGb6WGzwkPbqeqtsOT+pystmdrU6uGdNTEtttpev3sJPcZtQ2g==
+      storageAccountName: deanzzyg123
+      storageAccountKey: yXXdF2EH9whdXW9YAX26ojqYau8Sa8znLpW9QdardUAWbXq7GGpLyBOqssMDin826oprNiZRkyK5rItzFX91xA==
   ipAddress:
-    dnsNameLabel: mojifier53143aa26e4
+    dnsNameLabel: deanzzyg123
     type: Public
     ports:
     - port: 3000
