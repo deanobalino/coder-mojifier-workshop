@@ -1,46 +1,33 @@
 apiVersion: 2018-10-01
 location: westeurope
-name: deanzzyg
+name: mojifier
 properties:
   containers:
-  - name: deanzzyg
+  - name: mojifier
     properties:
       command: 
       - code-server 
-      - ./mojifier 
+      - ./mslearn-the-mojifier 
       - --allow-http 
-      - --password= 
+      - --password=brainfart 
       - --port=3000
       image: deanobalino/mojifier:latest
       resources:
         requests:
           cpu: 1.0
           memoryInGb: 1.5
-      volumeMounts:
-      - mountPath: /root/project
-        name: project-volume
-      - mountPath: /root/.local/share/code-server
-        name: data-volume
       ports:
       - port: 3000
+      - port: 7071
   osType: Linux
   restartPolicy: Always
-  volumes:
-  - name: project-volume
-    azureFile:
-      shareName: code-server-proj
-      storageAccountName: deanzzyg123
-      storageAccountKey: yXXdF2EH9whdXW9YAX26ojqYau8Sa8znLpW9QdardUAWbXq7GGpLyBOqssMDin826oprNiZRkyK5rItzFX91xA==
-  - name: data-volume
-    azureFile:
-      shareName: code-server-data
-      storageAccountName: deanzzyg123
-      storageAccountKey: yXXdF2EH9whdXW9YAX26ojqYau8Sa8znLpW9QdardUAWbXq7GGpLyBOqssMDin826oprNiZRkyK5rItzFX91xA==
   ipAddress:
-    dnsNameLabel: deanzzyg123
+    dnsNameLabel: mojifier571417702
     type: Public
     ports:
     - port: 3000
+      protocol: tcp
+    - port: 7071
       protocol: tcp
 tags: null
 type: Microsoft.ContainerInstance/containerGroups

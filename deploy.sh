@@ -15,7 +15,7 @@ while getopts ":p:" opt; do
     ;;
   esac
 done
-echo $PASSWORD
+echo "Password is: $PASSWORD"
 #Generate a 10 charachter Unique ID to append to resource names
 NEW_UUID=$(python -c 'import random; print(random.randint(0,1000000000-1))')
 # Set colors for terminal output
@@ -44,18 +44,18 @@ echo -e "${BLUE}Creating the Resource Group\n"
 az group create --name $RESOURCE_GROUP --location $LOCATION  
 
 # Create the storage account with the parameters
-echo -e "${BLUE}Creating the Storage account\n"
-az storage account create -n $STORAGE_ACCOUNT_NAME -g $RESOURCE_GROUP -l $LOCATION --sku Standard_LRS -o table  
+#echo -e "${BLUE}Creating the Storage account\n"
+#az storage account create -n $STORAGE_ACCOUNT_NAME -g $RESOURCE_GROUP -l $LOCATION --sku Standard_LRS -o table  
 # Export the connection string as an environment variable, this is used when creating the Azure file share
-CONN_STR=$(az storage account show-connection-string -n $STORAGE_ACCOUNT_NAME -g $RESOURCE_GROUP -o tsv)
+#CONN_STR=$(az storage account show-connection-string -n $STORAGE_ACCOUNT_NAME -g $RESOURCE_GROUP -o tsv)
 # Create the file shares
-echo -e "${BLUE}Creating the File Shares\n"
-az storage share create -n $SHARE_NAME_PROJ --connection-string $CONN_STR -o table 
-az storage share create -n $SHARE_NAME_DATA --connection-string $CONN_STR -o table 
+#echo -e "${BLUE}Creating the File Shares\n"
+#az storage share create -n $SHARE_NAME_PROJ --connection-string $CONN_STR -o table 
+#az storage share create -n $SHARE_NAME_DATA --connection-string $CONN_STR -o table 
 
 # Get the account name and key
-STORAGE_ACCOUNT=$(az storage account list --resource-group $RESOURCE_GROUP --query "[?contains(name,'$STORAGE_ACCOUNT_NAME')].[name]" -o tsv)
-STORAGE_KEY=$(az storage account keys list --resource-group $RESOURCE_GROUP --account-name $STORAGE_ACCOUNT --query "[0].value" -o tsv)
+#STORAGE_ACCOUNT=$(az storage account list --resource-group $RESOURCE_GROUP --query "[?contains(name,'$STORAGE_ACCOUNT_NAME')].[name]" -o tsv)
+#STORAGE_KEY=$(az storage account keys list --resource-group $RESOURCE_GROUP --account-name $STORAGE_ACCOUNT --query "[0].value" -o tsv)
 
 # Create YAML file
 echo -e "${BLUE}Creating YAML File for Azure Container Instance\n"
@@ -78,31 +78,18 @@ properties:
         requests:
           cpu: 1.0
           memoryInGb: 1.5
-      volumeMounts:
-      - mountPath: /root/project
-        name: project-volume
-      - mountPath: /root/.local/share/code-server
-        name: data-volume
       ports:
       - port: 3000
+      - port: 7071
   osType: Linux
   restartPolicy: Always
-  volumes:
-  - name: project-volume
-    azureFile:
-      shareName: ${SHARE_NAME_PROJ}
-      storageAccountName: ${STORAGE_ACCOUNT}
-      storageAccountKey: ${STORAGE_KEY}
-  - name: data-volume
-    azureFile:
-      shareName: ${SHARE_NAME_DATA}
-      storageAccountName: ${STORAGE_ACCOUNT}
-      storageAccountKey: ${STORAGE_KEY}
   ipAddress:
     dnsNameLabel: ${STORAGE_ACCOUNT_NAME}
     type: Public
     ports:
     - port: 3000
+      protocol: tcp
+    - port: 7071
       protocol: tcp
 tags: null
 type: Microsoft.ContainerInstance/containerGroups
