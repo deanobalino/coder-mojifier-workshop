@@ -23,8 +23,6 @@ This is a tailored version of Visual Studio code, that you can run in the browse
 3. Login with the `--password` that you chose when running the container.
 
 ## Deploy to Azure  
-**NOTE THIS IS EXPERIMENTAL AND MAY NOT WORK**
-----------------------------------------------
 **Pre-requisite:** you will need an Azure account. You can sign up [here](https://azure.microsoft.com/en-gb/free).  
 
 1. Login to Azure at [portal.azure.com](https://portal.azure.com)
