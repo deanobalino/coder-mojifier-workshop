@@ -23,9 +23,9 @@ This is a tailored version of Visual Studio code, that you can run in the browse
 3. Login with the `--password` that you chose when running the container.
 
 ## Deploy to Azure  
-**Pre-requisite:** you will need an Azure account. You can sign up [here](https://azure.microsoft.com/en-gb/free).  
+**Pre-requisite:** you will need an Azure account. You can sign up [here](https://azure.microsoft.com/free?WT.mc_id=devops-0000-debryen).  
 
-1. Login to Azure at [portal.azure.com](https://portal.azure.com)
+1. Login to Azure at [portal.azure.com](https://portal.azure.com/?WT.mc_id=devops-0000-debryen)
 
 2. Click on the Azure Cloud Shell Icon  
 ![cloud shell icon](cloud-shell-icon.png)
@@ -61,7 +61,7 @@ Therefore, when you get to the 'Deploy to Azure' section of the workshop on Micr
 az login
 ``` 
 
-2. Follow the instructions, open https://microsoft.com/devicelogin, login to your Azure account and type the code provided in the terminal. 
+2. Follow the instructions, open https://microsoft.com/devicelogin?WT.mc_id=devops-0000-debryen, login to your Azure account and type the code provided in the terminal. 
 
 3. We will need to create our Function App in Azure, type the following:
 
